@@ -1,0 +1,16 @@
+READFILE IN
+VAR $input1  =  (CLISTREADIN 1) IN
+VAR $input2  =  (CLISTREADIN 2) IN
+VAR $limiter =  (INTREADIN 3)   IN
+
+DEFINE $postfix($list) =
+	IF  ($list = {}) THEN
+		$list
+	ELSE
+		APPEND (CONCAT (CAR $list) a) ($postfix(CDR $list)) IN
+
+DEFINE $outputformat ($l) = 
+	 SORT (SETIFY $l) IN
+
+FILTER ($outputformat($outputformat(JOIN ($postfix($input1)) ($postfix($input2))))) $limiter
+

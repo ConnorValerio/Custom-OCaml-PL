@@ -1,0 +1,45 @@
+READFILE IN
+VAR $input1 = (CLISTREADIN 1) IN
+VAR $input2 = (CLISTREADIN 2) IN
+VAR $limiter = (INTREADIN 3) IN
+VAR $first1 = APPEND (CAR $input1) {} IN
+VAR $first2 = APPEND (CAR $input2) {} IN
+
+DEFINE $postfix1($list) =
+	IF  ($list = {}) THEN
+		$list
+	ELSE
+		APPEND (CONCAT (CAR $list) a) ($postfix1(CDR $list)) IN
+
+DEFINE $postfix2($list) =
+	IF  ($list = {}) THEN
+		$list
+	ELSE
+		APPEND (CONCAT (CAR $list) b) ($postfix2(CDR $list)) IN		
+
+DEFINE $concat1($list2) =
+	IF (LENGTH (FILTER $list2 $limiter)) = $limiter 
+
+	THEN
+		FILTER $list2 $limiter
+	ELSE
+	
+	 ($concat1 (SORT(SETIFY(JOIN $list2 ($postfix1($list2)))))) IN
+
+DEFINE $concat2($list2) =
+	IF (LENGTH (FILTER $list2 $limiter)) = $limiter 
+
+	THEN
+		FILTER $list2 $limiter
+	ELSE
+	
+	 ($concat2 (SORT(SETIFY(JOIN $list2 ($postfix2($list2)))))) IN	 
+
+
+IF $first1 = {} THEN
+	IF $first2 = {} THEN
+		{} 
+	ELSE
+		 ($concat2 ($first2))
+ELSE
+	 ($concat1($first1))		 

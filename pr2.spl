@@ -1,0 +1,10 @@
+READFILE IN
+VAR $l1 = (CLISTREADIN 1) IN
+VAR $l2 = (CLISTREADIN 2) IN
+VAR $k = (INTREADIN 3) IN
+
+DEFINE $union($k) =
+
+	FILTER (SORT(SETIFY(JOIN $l1 $l2))) $k IN
+
+$union ($k)	

@@ -30,13 +30,21 @@ HOW IT WORKS:
 -------------
 
 -> mysplinterpreter takes the program as an argument from standard input and opens a lexer buffer containing the program code.
+
 -> The lexer buffer is passed to lexer_main (in lexer.mll) where tokens are created based on the syntax of the language.
+
 -> The tokens are passed to parser_main: expr EOF { $1 } (in parser.mly) where 'expr' is the whole program which is to be evaluated, EOF is an End of File token, and $1 is the first argument from standard input.
+
 -> 'expr' is evaluated based on the 'expr' patterns below parser_main (i.e. 'expr' of type 'INT' evaluates to {LitI $1})
+
 -> LitI stands for literal integer, and 'LitI $1' means the token LitI followed by the rest of the program (i.e. any expr). Similarly 'IF expr THEN expr ELSE expr' means the IF token, any expression, THEN token, any expresion, ELSE token, any expression.
+
 -> Once the parser has parsed the program into expressions, the interpreter evaluates the parsed program.
+
 -> The evaluation of the program happens in 'expr.ml' (let eval term = eval_helper [] [] term [];;).
+
 -> evaluation happens by recursively calling eval_helper with the function environment, the argument environment and the term.
+
 -> eval_helper matches the term with pre-defined expressions, for example, 'AddExpr($1,$3)' expression evaluates to:
 
 (AddExpr (x, y)) -> 

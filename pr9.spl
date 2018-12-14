@@ -1,0 +1,20 @@
+READFILE IN
+VAR $ref = {a,b} IN
+VAR $input1 = (CLISTREADIN 1)  IN
+VAR $input2 = (CLISTREADIN 2) IN
+VAR $limiter = (INTREADIN 3)  IN
+
+DEFINE $aux($elemlist)=
+	IF (LENGTH $elemlist) = ((LENGTH $ref)+1) THEN
+		$elemlist
+	ELSE
+		$aux (APPEND (CONCAT (CAR $elemlist) (GET $ref (LENGTH $elemlist))) $elemlist) IN
+
+DEFINE  $concat2($list) =
+	IF ($list = {}) THEN
+		$list
+	ELSE
+	
+	JOIN (CDR($aux (APPEND (CAR $list) {}))) ($concat2(CDR $list)) IN
+
+ FILTER (SORT(SETIFY (JOIN ($concat2($input1)) ($concat2($input2) )))) $limiter	

@@ -1,0 +1,23 @@
+READFILE IN
+VAR $input1 = (CLISTREADIN 1) IN
+VAR $input2 = (CLISTREADIN 2) IN	 
+VAR $input3 = (CLISTREADIN 3) IN
+VAR $limiter = (INTREADIN 4) IN
+VAR $l1unionl2 = (SORT(SETIFY(JOIN $input1 $input2))) IN
+VAR $l1unionl3 = (SORT(SETIFY(JOIN $input1 $input3))) IN
+
+DEFINE $postfix1($list) =
+	IF  ($list = {}) THEN
+		$list
+	ELSE
+		APPEND (CONCAT (CAR $list) a) ($postfix1(CDR $list)) IN
+DEFINE $postfix2($list) =
+	IF  ($list = {}) THEN
+		$list
+	ELSE
+		APPEND (CONCAT (CAR $list) b) ($postfix2(CDR $list)) IN		
+
+
+PRINTLISTS (FILTER (SORT ($postfix1($l1unionl2))) $limiter) (FILTER (SORT ($postfix2($l1unionl3))) $limiter)		
+
+	

@@ -1,0 +1,12 @@
+expr.cmi :
+parser.cmi : expr.cmi
+expr.cmo : expr.cmi
+expr.cmx : expr.cmi
+lexer.cmo : parser.cmi
+lexer.cmx : parser.cmx
+main.cmo : parser.cmi lexer.cmo expr.cmi
+main.cmx : parser.cmx lexer.cmx expr.cmx
+mysplinterpreter.cmo : parser.cmi lexer.cmo expr.cmi
+mysplinterpreter.cmx : parser.cmx lexer.cmx expr.cmx
+parser.cmo : expr.cmi parser.cmi
+parser.cmx : expr.cmx parser.cmi

@@ -1,0 +1,11 @@
+READFILE IN
+VAR $input = (CLISTREADIN 1) IN
+VAR $limiter = (INTREADIN 2) IN
+
+DEFINE $postfix($list) =
+	IF  ($list = {}) THEN
+		$list
+	ELSE
+		APPEND (CONCAT (CAR $list) a) ($postfix(CDR $list)) IN
+
+FILTER (SORT(SETIFY ($postfix($input)))) $limiter
